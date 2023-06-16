@@ -4,6 +4,7 @@ export default createGlobalStyle`
     html {
         height: 100%;
     }
+    
     input{
         background: ${COLORS.coolgray001};
         border: none;
