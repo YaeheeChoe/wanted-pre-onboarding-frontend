@@ -3,6 +3,7 @@ import styled from 'styled-components'
 const RootCont = styled.div`
     display:flex;
     justify-content: center;
+    margin: 8px;
 `
 const Input = styled.input`
     width: 200px;
