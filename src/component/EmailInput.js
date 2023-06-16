@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useState } from 'react'
 const RootCont = styled.div`
     margin: 8px;
 `
@@ -11,12 +12,31 @@ const Label = styled.label`
     text-align:right;
     font-size: 12px;
 `
+
+
 function EmailInput() {
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
+
+    const validateEmail = (email) => {
+        const regex = /@/;
+        return regex.test(email);
+    };
+
+    const handleChange = (e) => {
+        const newEmail = e.target.value;
+        setEmail(newEmail);
+
+        if (validateEmail(newEmail)) {
+        setError('');
+        } else {
+        setError('올바른 이메일 폼을 입력하세요');
+        }
+    };
   return (
     <RootCont>
-        <Input data-testid="email-input" placeholder='email' />
-        <Label>
-        </Label>
+        <Input data-testid="email-input" type="email" value={email} onChange={handleChange} placeholder='email' />
+        {error && <Label>{error}</Label>}
     </RootCont>
   )
 }
