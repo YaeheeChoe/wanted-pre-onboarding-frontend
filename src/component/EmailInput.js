@@ -7,18 +7,11 @@ const RootCont = styled.div`
 `
 const Input = styled.input`
     width: 200px;
-    border-radius: 12px 0px 0px 12px;
-`
-const Btn = styled.button`
-    width: 56px;
-    border-radius: 0px 12px 12px 0px;
-
 `
 function EmailInput() {
   return (
     <RootCont>
         <Input data-testid="email-input" placeholder='email' />
-        <Btn>제출</Btn>
     </RootCont>
   )
 }
