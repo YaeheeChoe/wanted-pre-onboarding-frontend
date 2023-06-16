@@ -1,9 +1,14 @@
 import React from 'react'
+import EmailInput from '../component/EmailInput'
+import PasswordInput from '../component/PasswordInput'
+import styled from 'styled-components'
+
 
 function Signin() {
   return (
     <div>
-      Signin
+      <EmailInput/>
+      <PasswordInput/>
     </div>
   )
 }
