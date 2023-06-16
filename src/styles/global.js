@@ -14,6 +14,12 @@ export default createGlobalStyle`
     input::placeholder{
         color: ${COLORS.coolgray002};
     }
+    button{
+        background: ${COLORS.primary};
+        color : ${COLORS.white};
+        border:none;
+        border-radius: 12px;
+    }
     textarea:focus, input:focus {
         color: ${COLORS.coolgray003};
         outline: none;
