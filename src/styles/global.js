@@ -18,6 +18,4 @@ export default createGlobalStyle`
         color: ${COLORS.coolgray003};
         outline: none;
     }
-    body {
-    }
 `

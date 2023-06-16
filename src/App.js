@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter,Routes, Route } from 'react-router-dom';
 import Signin from './page/Signin';
 import Signup from './page/Signup';
@@ -6,6 +5,7 @@ import Todo from './page/Todo';
 import Main from './page/Main';
 import NotFound from './page/NotFound';
 import { GlobalStyles } from './styles'
+
 function App() {
   return (
     <div className="App">
