@@ -14,7 +14,7 @@ const Label = styled.label`
 `
 
 
-function EmailInput() {
+function EmailInput(props) {
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
 
@@ -26,8 +26,9 @@ function EmailInput() {
     const handleChange = (e) => {
         const newEmail = e.target.value;
         setEmail(newEmail);
-
-        if (validateEmail(newEmail)) {
+        const isSubmitable = validateEmail(newEmail);
+        props.setSubmitable(isSubmitable);
+        if (isSubmitable) {
         setError('');
         } else {
         setError('올바른 이메일 폼을 입력하세요');

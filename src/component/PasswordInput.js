@@ -13,7 +13,7 @@ const Label = styled.label`
     text-align:right;
     font-size: 12px;
 `
-function PasswordInput() {
+function PasswordInput(props) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
@@ -25,8 +25,9 @@ function PasswordInput() {
     const handleChange = (e) => {
         const newPassword = e.target.value;
         setPassword(newPassword);
-
-        if (validatePassword(newPassword)) {
+        const isSubmitable = validatePassword(newPassword);
+        props.setSubmitable(isSubmitable);
+        if (isSubmitable) {
         setError('');
         } else {
         setError('올바른 패스워드 폼을 입력하세요');
