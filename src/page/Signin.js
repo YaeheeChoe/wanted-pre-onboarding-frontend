@@ -45,7 +45,7 @@ function Signin() {
         <Cont>
             <EmailInput setSubmitable={setEmailRight} setParent={setEmail} />
             <PasswordInput setSubmitable={setPasswordRight} setParent={setPassword}/>
-            {isEmailRight && isPasswordRight ? <Btn onClick={onSubmit}>제출</Btn> : <DisabledBtn disabled>제출</DisabledBtn>}
+            {isEmailRight && isPasswordRight ? <Btn onClick={onSubmit}>로그인</Btn> : <DisabledBtn disabled>로그인</DisabledBtn>}
         </Cont>
     </RootCont>
   )
