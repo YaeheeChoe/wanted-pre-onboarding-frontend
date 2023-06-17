@@ -36,9 +36,26 @@ function Signin() {
     const [isPasswordRight, setPasswordRight] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+    const url = 'https://www.pre-onboarding-selection-task.shop/auth/signin';
     const onSubmit = () => {
-        alert(`email: ${email} password: ${password}`);
+        fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password,
+            }),
+          })
+          .then(response => response.json())
+          .then(result => {
+            console.log(result);
+            alert(`email: ${email} password: ${password}`);
+          })
+          .catch(error => {
+            console.error(error);
+          });
     }
   return (
     <RootCont>
