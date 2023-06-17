@@ -28,6 +28,7 @@ function EmailInput(props) {
         setEmail(newEmail);
         const isSubmitable = validateEmail(newEmail);
         props.setSubmitable(isSubmitable);
+        props.setParent(newEmail);
         if (isSubmitable) {
         setError('');
         } else {

@@ -27,6 +27,7 @@ function PasswordInput(props) {
         setPassword(newPassword);
         const isSubmitable = validatePassword(newPassword);
         props.setSubmitable(isSubmitable);
+        props.setParent(newPassword);
         if (isSubmitable) {
         setError('');
         } else {

@@ -34,12 +34,18 @@ const DisabledBtn = styled.button`
 function Signin() {
     const [isEmailRight, setEmailRight] = useState(false);
     const [isPasswordRight, setPasswordRight] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    
+    const onSubmit = () => {
+        alert(`email: ${email} password: ${password}`);
+    }
   return (
     <RootCont>
         <Cont>
-            <EmailInput setSubmitable={setEmailRight}/>
-            <PasswordInput setSubmitable={setPasswordRight}/>
-            {isEmailRight && isPasswordRight ? <Btn>제출</Btn> : <DisabledBtn disabled>제출</DisabledBtn>}
+            <EmailInput setSubmitable={setEmailRight} setParent={setEmail} />
+            <PasswordInput setSubmitable={setPasswordRight} setParent={setPassword}/>
+            {isEmailRight && isPasswordRight ? <Btn onClick={onSubmit}>제출</Btn> : <DisabledBtn disabled>제출</DisabledBtn>}
         </Cont>
     </RootCont>
   )
