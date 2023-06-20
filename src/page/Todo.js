@@ -35,6 +35,11 @@ function Todo() {
   }, []);
   
   useEffect(() => {
+    loadTodos();
+
+  }, [token]);
+
+  const loadTodos = () => {
     if (!token) {
       navigate('/signin');
     } else {
@@ -60,16 +65,13 @@ function Todo() {
         .catch((error) => {
           console.error('todo get: 요청이 실패했습니다.', error);
         });
-    }
-  }, [token]);
-
+      }
+  }
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
-
   const handleAddTodo = () => {
     if (inputValue.trim() !== '') {
-      setTodos([...todos, inputValue]);
       setInputValue('');
     }
     const method = 'POST';
@@ -79,7 +81,7 @@ function Todo() {
     };
     const body = JSON.stringify({
       todo: inputValue,
-      isCompleted: true,
+      isCompleted: false,
     });
 
     fetch(url, {
@@ -94,20 +96,63 @@ function Todo() {
         throw new Error('todo: 요청이 실패했습니다.');
       })
       .then((data) => {
-        console.log(data);
+        loadTodos();
       })
       .catch((error) => {
         console.error('todo : 요청이 실패했습니다.', error);
       });
   };
 
-  const handleDeleteTodo = (index) => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
-  };
+  const handleDeleteTodo = async (index) => {
+    const method = 'DELETE';
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
 
+    try {
+      const response = await fetch(`${url}/${index}`, {
+        method: method,
+        headers: headers,
+      });
   
+      if (response.status === 204) {
+        console.log('Todo 삭제: 요청이 성공했습니다.');
+        loadTodos();
+      } else {
+        console.error('Todo 삭제: 요청이 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('Todo 삭제: 요청이 실패했습니다.', error);
+    }
+  }
+  const handleUpdateTodo = async (id, updatedTodo, isCompleted) => {
+    const method = 'PUT';
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
+    const body = JSON.stringify({
+      todo: updatedTodo,
+      isCompleted: isCompleted,
+    });
+  
+    try {
+      const response = await fetch(`${url}/${id}`, {
+        method: method,
+        headers: headers,
+        body: body,
+      });
+  
+      if (response.status === 200) {
+        console.log('Todo 업데이트: 요청이 성공했습니다.');
+        loadTodos();
+      } else {
+        console.error('Todo 업데이트: 요청이 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('Todo 업데이트: 요청이 실패했습니다.', error);
+    }
+  };
   return (
     <RootCont>
       <Cont>
@@ -120,9 +165,9 @@ function Todo() {
         <ul>
           {todos.map((todo, index) => (
             <li key={index}>
-              <input type="checkbox" isCompleted={todo.isCompleted} />
+              <input type="checkbox" checked={todo.isCompleted} onChange={() => handleUpdateTodo(todo.id,todo.todo,!todo.isCompleted)} />
               <span>{todo.todo}</span>
-              <Btn onClick={() => handleDeleteTodo(index)}>삭제</Btn>
+              <Btn onClick={() => handleDeleteTodo(todo.id)}>삭제</Btn>
             </li>
           ))}
         </ul>
