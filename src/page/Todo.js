@@ -62,7 +62,6 @@ function Todo() {
           throw new Error(response.error);
         })
         .then((data) => {
-          console.log('todo get: 요청이 성공했습니다.', data);
           setTodos(data);
           setUpdating(Array.from({ length: data.length }, () => false));
         })
