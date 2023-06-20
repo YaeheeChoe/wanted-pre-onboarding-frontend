@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import { COLORS } from '../styles/colors';
 const RootCont =styled.div`
     position: absolute;
-    width :300px;
+    width :800px;
     height: 300px;
     top: calc(50% - 100px);
-    left: calc(50% - 150px);
+    left: calc(50% - 400px);
 `
 const Cont = styled.div`
     display:flex;
@@ -20,11 +20,14 @@ const Btn = styled.button`
     background: ${COLORS.primary};
     color: ${COLORS.white};
     padding:8px;
+    margin: 8px 0px 8px 8px;
 `
 
 function Todo() {
   const [todos, setTodos] = useState([]);
+  const [isUpdating,setUpdating]  = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [updateValue, setUpdateValue] = useState('');
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
   const url = 'https://www.pre-onboarding-selection-task.shop/todos';
@@ -61,6 +64,7 @@ function Todo() {
         .then((data) => {
           console.log('todo get: 요청이 성공했습니다.', data);
           setTodos(data);
+          setUpdating(Array.from({ length: data.length }, () => false));
         })
         .catch((error) => {
           console.error('todo get: 요청이 실패했습니다.', error);
@@ -69,6 +73,9 @@ function Todo() {
   }
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
+  };
+  const handleUpdateInputChange = (event) => {
+    setUpdateValue(event.target.value);
   };
   const handleAddTodo = () => {
     if (inputValue.trim() !== '') {
@@ -125,7 +132,13 @@ function Todo() {
       console.error('Todo 삭제: 요청이 실패했습니다.', error);
     }
   }
-  const handleUpdateTodo = async (id, updatedTodo, isCompleted) => {
+  const handleUpdateTodo = (id,index, isCompleted) => {
+    const newUpdating  = [...isUpdating];
+    newUpdating[index] = false;
+    setUpdating(newUpdating);
+    updateTodo(id, updateValue,isCompleted);
+  }
+  const updateTodo = async (id, updatedTodo, isCompleted) => {
     const method = 'PUT';
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -165,9 +178,29 @@ function Todo() {
         <ul>
           {todos.map((todo, index) => (
             <li key={index}>
-              <input type="checkbox" checked={todo.isCompleted} onChange={() => handleUpdateTodo(todo.id,todo.todo,!todo.isCompleted)} />
-              <span>{todo.todo}</span>
-              <Btn onClick={() => handleDeleteTodo(todo.id)}>삭제</Btn>
+              <input type="checkbox" checked={todo.isCompleted} onChange={() => updateTodo(todo.id,index,todo.todo,!todo.isCompleted)} />
+              {isUpdating[index] ?
+              <>
+              <input data-testid="modify-input" value={updateValue} onChange={handleUpdateInputChange} />
+              <Btn data-testid="submit-button" onClick={() => handleUpdateTodo(todo.id,index, todo.isCompleted)}>제출</Btn>
+              <Btn data-testid="cancel-button"
+              onClick={()  => {
+                  const newUpdating  = [...isUpdating];
+                  newUpdating[index] = false;
+                  setUpdating(newUpdating);
+                }}>취소</Btn>
+              </>:
+              <>
+                <span>{todo.todo}</span>
+                <Btn data-testid="modify-button" onClick={()  => {
+                  const newUpdating  = [...isUpdating];
+                  newUpdating[index] = true;
+                  setUpdating(newUpdating);
+                  setUpdateValue(todo.todo);
+                }} >수정</Btn>                
+                <Btn data-testid="delete-button" onClick={() => handleDeleteTodo(todo.id)}>삭제</Btn>
+              </>
+              }
             </li>
           ))}
         </ul>
