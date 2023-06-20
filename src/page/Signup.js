@@ -43,7 +43,7 @@ function Signup() {
     const url = 'https://www.pre-onboarding-selection-task.shop/auth/signup';
     
     useEffect(() => {
-      const token = localStorage.getItem('access_token');
+      const token = JSON.parse(localStorage.getItem('access_token'));
       if (token) {
         navigate('/todo');
       }

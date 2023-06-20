@@ -33,7 +33,7 @@ function Todo() {
   const url = 'https://www.pre-onboarding-selection-task.shop/todos';
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('access_token');
+    const storedToken = JSON.parse(localStorage.getItem('access_token'));
     setToken(storedToken);
   }, []);
   

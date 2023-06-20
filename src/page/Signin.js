@@ -41,7 +41,7 @@ function Signin() {
     const navigate = useNavigate();
     const url = 'https://www.pre-onboarding-selection-task.shop/auth/signin';
     useEffect(() => {
-      const token = localStorage.getItem('access_token');
+      const token = JSON.parse(localStorage.getItem('access_token'));
       if (token) {
         navigate('/todo');
       }
