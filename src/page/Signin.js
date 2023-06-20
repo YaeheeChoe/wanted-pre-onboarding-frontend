@@ -42,7 +42,7 @@ function Signin() {
     const url = 'https://www.pre-onboarding-selection-task.shop/auth/signin';
     useEffect(() => {
       const token = localStorage.getItem('access_token');
-      if (token) {
+      if (token !== null) {
         navigate('/todo');
       }
     }, []);
@@ -62,7 +62,6 @@ function Signin() {
             if(result.access_token)
             {
               localStorage.setItem('access_token', result.access_token);
-              console.log( result.access_token);
               navigate('/todo');
             }
             else

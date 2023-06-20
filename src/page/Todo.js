@@ -43,7 +43,7 @@ function Todo() {
   }, [token]);
 
   const loadTodos = () => {
-    if (!token) {
+    if (token === null) {
       navigate('/signin');
     } else {
       const method = 'GET';
