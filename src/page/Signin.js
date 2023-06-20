@@ -41,7 +41,7 @@ function Signin() {
     const navigate = useNavigate();
     const url = 'https://www.pre-onboarding-selection-task.shop/auth/signin';
     useEffect(() => {
-      const token = JSON.parse(localStorage.getItem('access_token'));
+      const token = localStorage.getItem('access_token');
       if (token) {
         navigate('/todo');
       }
@@ -61,7 +61,7 @@ function Signin() {
           .then(result => {
             if(result.access_token)
             {
-              localStorage.setItem('access_token', JSON.stringify(result.access_token));
+              localStorage.setItem('access_token', result.access_token);
               console.log( result.access_token);
               navigate('/todo');
             }

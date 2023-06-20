@@ -33,7 +33,7 @@ function Todo() {
   const url = 'https://www.pre-onboarding-selection-task.shop/todos';
 
   useEffect(() => {
-    const storedToken = JSON.parse(localStorage.getItem('access_token'));
+    const storedToken = localStorage.getItem('access_token');
     setToken(storedToken);
   }, []);
   
@@ -177,7 +177,7 @@ function Todo() {
         <ul>
           {todos.map((todo, index) => (
             <li key={index}>
-              <input type="checkbox" checked={todo.isCompleted} onChange={() => updateTodo(todo.id,index,todo.todo,!todo.isCompleted)} />
+              <input type="checkbox" checked={todo.isCompleted} onChange={() => updateTodo(todo.id,todo.todo,!todo.isCompleted)} />
               {isUpdating[index] ?
               <>
               <input data-testid="modify-input" value={updateValue} onChange={handleUpdateInputChange} />
