@@ -4,6 +4,8 @@ import PasswordInput from '../component/PasswordInput'
 import styled from 'styled-components'
 import { COLORS } from '../styles/colors'
 import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react'
 const RootCont =styled.div`
     position: absolute;
     width :300px;
@@ -36,7 +38,14 @@ function Signin() {
     const [isPasswordRight, setPasswordRight] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
     const url = 'https://www.pre-onboarding-selection-task.shop/auth/signin';
+    useEffect(() => {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        navigate('/todo');
+      }
+    }, []);
     const onSubmit = () => {
         fetch(url, {
             method: 'POST',
@@ -50,8 +59,16 @@ function Signin() {
           })
           .then(response => response.json())
           .then(result => {
-            console.log(result);
-            alert(`email: ${email} password: ${password}`);
+            if(result.access_token)
+            {
+              localStorage.setItem('access_token', result.access_token);
+              console.log( result.access_token);
+              navigate('/todo');
+            }
+            else
+            {
+              alert('올바른 ID, 비밀번호를 입력하세요. ');
+            }
           })
           .catch(error => {
             console.error(error);

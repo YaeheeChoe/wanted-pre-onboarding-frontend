@@ -5,6 +5,8 @@ import PasswordInput from '../component/PasswordInput'
 import styled from 'styled-components'
 import { COLORS } from '../styles/colors'
 import { useState } from 'react'
+import { useNavigate } from "react-router-dom"
+import { useEffect } from 'react'
 const RootCont =styled.div`
     position: absolute;
     width :300px;
@@ -37,7 +39,16 @@ function Signup() {
     const [isPasswordRight, setPasswordRight] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
     const url = 'https://www.pre-onboarding-selection-task.shop/auth/signup';
+    
+    useEffect(() => {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        navigate('/todo');
+      }
+    }, []);
+    
     const onSubmit = () => {
         fetch(url, {
             method: 'POST',
@@ -52,7 +63,8 @@ function Signup() {
           .then(response => response.json())
           .then(result => {
             console.log(result);
-            alert(`email: ${email} password: ${password}`);
+            alert(`가입완료. email: ${email} password: ${password}`);
+            navigate("/signin");
           })
           .catch(error => {
             console.error(error);
