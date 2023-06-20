@@ -61,7 +61,7 @@ function Signin() {
           .then(result => {
             if(result.access_token)
             {
-              localStorage.setItem('access_token', result.access_token);
+              localStorage.setItem('access_token', JSON.stringify(result.access_token));
               console.log( result.access_token);
               navigate('/todo');
             }
