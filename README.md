@@ -100,6 +100,7 @@ useEffect(() => {
 ```
 ### Todo
 GET에 해당하는 loadTodos에서 todo state및 수정중 여부state(setUpdating)를 다루도록 해두고, todo의 리렌더링이 필요할 때마다(ADD, DELETE 등 후) 호출하도록 구현했습니다.
+
 Todo.js 40
 ```
 useEffect(() => {
