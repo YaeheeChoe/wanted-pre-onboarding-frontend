@@ -98,7 +98,70 @@ useEffect(() => {
       }
     }, []);
 ```
+### Todo
+GET에 해당하는 loadTodos에서 todo state및 수정중 여부state(setUpdating)를 다루도록 해두고, todo의 리렌더링이 필요할 때마다(ADD, DELETE 등 후) 호출하도록 구현했습니다.
+Todo.js 40
+```
+useEffect(() => {
+    loadTodos();
 
+  }, [token]);
+
+  const loadTodos = () => {
+    if (token === null) {
+      navigate('/signin');
+    } else {
+      const method = 'GET';
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+  
+      fetch(url, {
+        method: method,
+        headers: headers,
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error(response.error);
+        })
+        .then((data) => {
+          setTodos(data);
+          setUpdating(Array.from({ length: data.length }, () => false));
+        })
+        .catch((error) => {
+          console.error('todo get: 요청이 실패했습니다.', error);
+        });
+      }
+  }
+
+```
+Todo.js 112
+```
+const handleDeleteTodo = async (index) => {
+    const method = 'DELETE';
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    try {
+      const response = await fetch(`${url}/${index}`, {
+        method: method,
+        headers: headers,
+      });
+  
+      if (response.status === 204) {
+        console.log('Todo 삭제: 요청이 성공했습니다.');
+        loadTodos();
+      } else {
+        console.error('Todo 삭제: 요청이 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('Todo 삭제: 요청이 실패했습니다.', error);
+    }
+  }
+```
 
 ### 오류 발생하는 부분
 Todo.js 35
