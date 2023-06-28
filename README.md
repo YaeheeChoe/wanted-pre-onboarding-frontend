@@ -18,6 +18,7 @@ styled-component
 ## 구현방법
 ### Component
 다음과 같이 컴포넌트를 분할했습니다.
+
 <img width="306" alt="스크린샷 2023-06-28 오전 8 58 46" src="https://github.com/YaeheeChoe/wanted-pre-onboarding-frontend/assets/72256237/89e4835d-301a-4b63-9da9-09de0f0fa8f1">
 
 ### State
